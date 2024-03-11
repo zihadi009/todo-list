@@ -18,11 +18,11 @@ let todoList = [
 
 function App() {
   const [todos, setTodos] = useState(todoList);
-  // console.log(todos);
   const [newTodo, setNewTodo] = useState('');
-  const removeTodo = (index) => {
+
+  const removeTodo = (id) => {
     const newTodos = todos;
-    const filteredTodos = newTodos.filter((todo, idx) => idx !== index)
+    const filteredTodos = newTodos.filter((todo) => todo.id !== id);
     setTodos(filteredTodos);
   }
 
@@ -64,15 +64,21 @@ function TodoInput({ newTodo, setNewTodo, setTodos }) {
 }
 
 function TodoList({ todos, onRemove }) {
-
+  const myStyle = {
+    backgroundColor: "green",
+    padding: "3px",
+    borderRadius: "5px",
+    // textDecoration: "line-through"
+  };
   return (
     <ul>
       {
         todos.map((todo, index) => (
           <li key={todo.id} className="list-item">
-            {todo.todo}
-            <span className='icons' onClick={() => onRemove(index)}>
-              <i className="ri-delete-bin-6-line"></i>
+           <p>{todo.todo}</p>
+            <span className='icons'>
+              <button style={myStyle}>Completed</button>
+              <i className="ri-delete-bin-6-line" onClick={() => onRemove(todo.id)}></i>
             </span>
           </li>))
       }
