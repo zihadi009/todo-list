@@ -1,138 +1,160 @@
 import { useState } from "react";
 import "./App.css";
 import 'remixicon/fonts/remixicon.css';
+
 let todoList = [
   {
     id: crypto.randomUUID(),
-    todo: "Finish homework"
+    title: "Weekly Grocery Shopping",
+    description: "Create a list of essential groceries for the week. Check pantry and fridge, organize the list, and stick to it while shopping."
   },
   {
     id: crypto.randomUUID(),
-    todo: "Buy groceries"
+    title: "Home Improvement Projects",
+    description: "Compile a list of home improvement tasks. Prioritize and schedule repairs, maintenance, and upgrades for your living space."
   },
   {
     id: crypto.randomUUID(),
-    todo: "Call mom"
+    title: "Professional Development Goals",
+    description: "Document short-term and long-term professional development goals. Set milestones, research relevant opportunities, and track progress."
   },
 ];
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(todoList);
+  console.log(todos)
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [isCompleteScreen, setIsCompleteScreen] = useState(false);
   const [completedTodos, setCompletedTodos] = useState([]);
-
-  const removeTodo = (id) => {
-    const newTodos = todos;
-    const filteredTodos = newTodos.filter((todo) => todo.id !== id);
-    setTodos(filteredTodos);
-  }
-
-  const handleFromCompleted = (id) => {
-    const newTodos = completedTodos;
-    const filteredTodos = newTodos.filter((todo) => todo.id !== id);
-    setCompletedTodos(filteredTodos);
-  }
 
   const handleComplete = (id) => {
     const inCompleteTodos = todos;
     const filteredItem = inCompleteTodos.filter((todo) => todo.id === id);
     const completed = {
       id: filteredItem[0].id,
-      todo: filteredItem[0].todo
+      title: filteredItem[0].title,
+      description: filteredItem[0].description,
     }
-    console.log(filteredItem[0]);
     setCompletedTodos(() => [...completedTodos, completed]);
-    removeTodo(id);
+    handleRemoveTodo(id);
   };
 
-  return (
-    <div className="main-container">
-      <div className="center-container">
-        <TodoInput setTodos={setTodos} title={title} setTitle={setTitle} />
-        <TodoList setTodos={setTodos} onFromCompletedTodos={handleFromCompleted} completedTodos={completedTodos} onComplete={handleComplete} todos={todos} onRemove={removeTodo} setIsCompleteScreen={setIsCompleteScreen} isCompleteScreen={isCompleteScreen} />
-      </div>
-    </div>
-  );
-};
-
-function TodoInput({ title, setTitle, setTodos }) {
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    const todo = title;
-    const newTodo1 = {
-      id: crypto.randomUUID(),
-      todo
-    }
-    setTodos((todos) => [...todos, newTodo1]);
-    setTitle("");
+  const handleRemoveFromCompleted = (id) => {
+    const newTodos = completedTodos;
+    const filteredTodos = newTodos.filter((todo) => todo.id !== id);
+    setCompletedTodos(filteredTodos);
+  }
+  const handleRemoveTodo = (id) => {
+    const newTodos = todos;
+    const filteredTodos = newTodos.filter((todo) => todo.id !== id);
+    setTodos(filteredTodos);
   }
 
   return (
-    <form className="input-container" onSubmit={handleSubmit}>
-      <input value={title} onChange={(e) => setTitle(e.target.value)}
-        type="text"
-        className="input-box-todo"
-        placeholder="Title"
-      />
-      <input value={title} onChange={(e) => setTitle(e.target.value)}
-        type="text"
-        className="input-box-todo"
-        placeholder="Description"
-      />
-      {/* <button className="add-btn">+</button> */}
-     <button><i className="ri-add-box-line ri-3x"></i></button>
-    </form>
+    <div className="App">
+      <Title />
+      <div className="todo-wrapper">
+        <TodoInput setTodos={setTodos} title={title} setTitle={setTitle} description={description} setDescription={setDescription} />
+        <ToggleButton isCompleteScreen={isCompleteScreen} setIsCompleteScreen={setIsCompleteScreen} />
+        <TodoList isCompleteScreen={isCompleteScreen} todos={todos} onRemoveTodo={handleRemoveTodo} onComplete={handleComplete} completedTodos={completedTodos} onRemoveFromCompleted={handleRemoveFromCompleted} />
+      </div>
+    </div>
   );
 }
 
-function TodoList({ todos, onRemove, setIsCompleteScreen, isCompleteScreen, onComplete, completedTodos, onFromCompletedTodos }) {
+function Title() {
+  return <h1>My Todos</h1>
+}
+
+function TodoInput({ title, description, setTodos, setTitle, setDescription }) {
+  function handleSubmit(e) {
+    // console.log(title, description)
+    e.preventDefault();
+    const newTodo1 = {
+      id: crypto.randomUUID(),
+      title,
+      description
+    }
+    console.log(title, description)
+    setTodos((todos) => [...todos, newTodo1]);
+
+    setTitle("");
+    setDescription("");
+  }
   return (
-    <div>
-      <div className="btn-area">
-        <button
-          className={`secondaryBtn ${isCompleteScreen === false && 'active'}`}
-          onClick={() => setIsCompleteScreen(false)}
-        >
-          Todo
-        </button>
-        <button
-          className={`secondaryBtn ${isCompleteScreen === true && 'active'}`}
-          onClick={() => setIsCompleteScreen(true)}
-        >
-          Completed
-        </button>
+    <form className="todo-input">
+      <div className="todo-input-item">
+        <label>Title</label>
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="What's the task title?"
+        />
       </div>
-      <ul>
-        {
-          isCompleteScreen === false &&
-          todos.map((todo, index) => (
-            <li key={index} className="list-item">
-              <p>{todo.todo}</p>
-              <span className='icons'>
-                {/* <button className="completed-btn" >Completed</button> */}
-                <i className="ri-check-line" title="Mark as completed" onClick={() => onComplete(todo.id)}></i>
-                <i className="ri-delete-bin-6-line" title="Remove this todo" onClick={() => onRemove(todo.id)}></i>
-              </span>
-            </li>))
-        }
-      </ul>
-      <ul>
-        {
-          isCompleteScreen === true &&
-          completedTodos.map((todo, index) => (
-            <li key={index} className="list-item">
-              <p>{todo.todo}</p>
-              <span className='icons'>
-                <i className="ri-delete-bin-6-line" title="Remove this todo" onClick={() => onFromCompletedTodos(todo.id)}></i>
-              </span>
-            </li>))
-        }
-      </ul>
+      <div className="todo-input-item">
+        <label>Description</label>
+        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="What's the task description?"
+        />
+      </div>
+      <div className="todo-input-item">
+        <button type="button" className="primaryBtn" onClick={handleSubmit}>Add</button>
+      </div>
+    </form>
+  )
+}
+
+function ToggleButton({ isCompleteScreen, setIsCompleteScreen }) {
+  return (
+    <div className="btn-area">
+      <button
+        className={`secondaryBtn ${isCompleteScreen === false && 'active'}`}
+        onClick={() => setIsCompleteScreen(false)}
+      >
+        Todo
+      </button>
+      <button
+        className={`secondaryBtn ${isCompleteScreen === true && 'active'}`}
+        onClick={() => setIsCompleteScreen(true)}
+      >
+        Completed
+      </button>
     </div>
   )
 }
 
+function TodoList({ isCompleteScreen, todos, onRemoveTodo, onComplete, completedTodos, onRemoveFromCompleted }) {
+  return (
+    <div className="todo-list">
+      {isCompleteScreen === false &&
+        todos.map((todo) => {
+          return (
+            <div className="todo-list-item" key={todo.id}>
+              <div className="whole">
+                <h3>{todo.title}</h3>
+                <p>{todo.description}</p>
+              </div>
+              <div>
+                <button className="separate" onClick={() => onRemoveTodo(todo.id)}><i class="ri-delete-bin-5-line ri-2x"></i></button>
+                <button onClick={() => onComplete(todo.id)}><i class="ri-check-double-line ri-2x"></i></button>
+              </div>
+            </div>
+          );
+        })}
+
+      {isCompleteScreen === true &&
+        completedTodos.map((todo) => {
+          return (
+            <div className="todo-list-item" key={todo.id}>
+              <div>
+                <h3>{todo.title}</h3>
+                <p>{todo.description}</p>
+              </div>
+
+              <div>
+                <button onClick={() => onRemoveFromCompleted(todo.id)}><i class="ri-delete-bin-5-line ri-2x"></i></button>
+              </div>
+            </div>
+          );
+        })}
+    </div>
+  )
+}
 export default App;

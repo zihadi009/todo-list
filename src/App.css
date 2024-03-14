@@ -1,25 +1,94 @@
-*{
-  margin: 0;
-  padding: 0;
+* {
+  font-family: "Madimi One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
-body{
-  background-color: #333;
+
+App{
+  width: 500px;
 }
-.main-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+
+body {
+  background-color: #1f1e1e;
+  color: white;
+  overflow: hidden;
 }
-.center-container{
-  height: 600px;
+
+.whole{
   width: 600px;
 }
 
-.secondaryBtn{
+.separate{
+  margin-right: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.todo-wrapper {
+  background: #353434;
+  padding: 2%;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3%;
+  /* height: 70vh; */
+  width: 80vh;
+  overflow-y: auto;
+  box-shadow: 0px 5px 7px rgb(27, 27, 27);
+}
+
+.todo-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgb(78, 78, 78);
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+}
+
+.todo-input-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 25px;
+}
+
+.todo-input-item label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.todo-input-item input {
+  padding: 8px;
+  border: none;
+  width: 250px;
+}
+
+.todo-input-item input:focus {
+  outline: 2px solid rgb(0, 230, 122);
+}
+
+.primaryBtn {
+  background-color: rgb(0, 230, 122);
+  color: white;
+  border: none;
+  border-radius: 0px;
+  margin-top: 25px;
+  padding: 10px;
+  width: 60px;
+  cursor: pointer;
+}
+
+.primaryBtn:hover {
+  background-color: rgb(4, 196, 106);
+}
+
+.secondaryBtn {
   background-color: rgb(71, 71, 71);
   color: white;
-  border:none;
+  border: none;
   border-radius: 0px;
   margin-top: 25px;
   padding: 10px;
@@ -27,91 +96,83 @@ body{
   cursor: pointer;
 }
 
-.active{
-  background-color: rgb(0,230,122);
+.active {
+  background-color: rgb(0, 230, 122);
 }
 
-.btn-area{
+.todo-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-area {
   margin-bottom: 15px;
 }
 
-.app-heading{
-  padding: 4px;
-  color: white;  
-  /* text-align: center; */
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  text-transform: uppercase;
-}
-.input-container{
+.todo-list-item {
+  background-color: #414040;
   display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-.input-box-todo{
-  margin-left: 10px;
-  width: 70%;
-  height: 40px;
-  border-radius: 14px;
-  border:1px solid black;
-  padding-left: 10px;  
-  box-shadow: 0px 10px 20px rgba(0,0,0,0.3);
-  outline: none;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: large;
-}
-.add-btn{
-  width:40px;
-  font-size: 60px;
-  height:40px;
-  /* border-radius: 50%; */
-  border:none;
-  /* background-color: #00e67a; */
-  color: white;
-  font-weight: bolder;
-  font-size: larger;
-  margin-left: 10px;  
-  cursor: pointer;
-  /* box-shadow: 0px 5px 10px rgba(11, 10, 10, 0.3); */
-  transition: 0.3s;
-  padding: 15px;
-}
-.add-btn:active{
-  box-shadow: none;
-}
-.list-container{
-  display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
+  padding: 25px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 3px 5px rgb(43, 42, 42);
 }
 
-.list-item{
-  list-style-type: none;
-  /* background-color: #596e8b; */
-  border:2px solid rgb(161, 158, 158);
-  color:white;
-  padding:3px;
-  padding-left: 5px;
-  border-radius: 5px; 
-  width: 100%;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin-top: 10px;
+.todo-list-item h3 {
+  font-size: 25px;
+  color: rgb(0, 230, 122);
+  font-weight: bold;
+  margin: 0;
 }
-.icons{
-  position: absolute;
-  right: 10px;
+
+.todo-list-item p {
+  font-size: 14px;
+  color: rgb(161, 161, 161);
+  margin-top: 8px;
 }
-.icons i{
-  margin: 4px;
-  font-size: large;
+
+.icon {
+  font-size: 35px;
   cursor: pointer;
-  transition: 0.1s;   
 }
-.icons i:hover{
-  transform: scale(1.2);  
-}
-.icon-delete:hover{
+
+.icon:hover {
   color: red;
+}
+
+.check-icon {
+  font-size: 25px;
+  margin-left: 10px;
+  color: rgb(0, 230, 122);
+  cursor: pointer;
+}
+
+.check-icon:hover {
+  color: rgb(4, 196, 106);
+}
+
+.edit__wrapper {
+  background-color: #414040;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit__wrapper input,
+.edit__wrapper textarea {
+  border: 1px solid lightgray;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 3px;
+}
+
+.edit__wrapper .primaryBtn {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  font-size: 16px;
+  width: fit-content;
 }
