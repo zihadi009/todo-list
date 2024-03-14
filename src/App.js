@@ -31,10 +31,21 @@ function App() {
   const handleComplete = (id) => {
     const inCompleteTodos = todos;
     const filteredItem = inCompleteTodos.filter((todo) => todo.id === id);
+
+    const now = new Date();
+    const day = now.getDate()
+    const month = now.getMonth();
+    const year = now.getFullYear();
+    const hour = now.getHours();
+    const min = now.getMinutes();
+    const sec = now.getSeconds();
+    const completedOn =
+      day + '-' + parseInt(month + 1) + '-' + year + ' at ' + hour + ':' + min + ':' + sec;
     const completed = {
       id: filteredItem[0].id,
       title: filteredItem[0].title,
       description: filteredItem[0].description,
+      completedOn
     }
     setCompletedTodos(() => [...completedTodos, completed]);
     handleRemoveTodo(id);
@@ -146,6 +157,7 @@ function TodoList({ isCompleteScreen, todos, onRemoveTodo, onComplete, completed
               <div>
                 <h3>{todo.title}</h3>
                 <p>{todo.description}</p>
+                <small><p>Completed on: {todo.completedOn}</p></small>
               </div>
 
               <div>
