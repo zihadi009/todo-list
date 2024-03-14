@@ -64,7 +64,7 @@ body{
   height:40px;
   border-radius: 50%;
   border:none;
-  background-color:#316fc1;
+  background-color: #00e67a;
   color: white;
   font-weight: bolder;
   font-size: larger;
@@ -81,6 +81,7 @@ body{
   align-items: center;
   margin-top: 5px;
 }
+
 .list-item{
   list-style-type: none;
   /* background-color: #596e8b; */
