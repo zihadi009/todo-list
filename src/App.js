@@ -67,8 +67,8 @@ function App() {
       <Title />
       <div className="todo-wrapper">
         <TodoInput setTodos={setTodos} title={title} setTitle={setTitle} description={description} setDescription={setDescription} />
-        <ToggleButton isCompleteScreen={isCompleteScreen} setIsCompleteScreen={setIsCompleteScreen} />
-        <TodoList isCompleteScreen={isCompleteScreen} todos={todos} onRemoveTodo={handleRemoveTodo} onComplete={handleComplete} completedTodos={completedTodos} onRemoveFromCompleted={handleRemoveFromCompleted} />
+        <ToggleButton todos={todos} completed={completedTodos} isCompleteScreen={isCompleteScreen} setIsCompleteScreen={setIsCompleteScreen} />
+        <TodoList completedTodos={completedTodos} isCompleteScreen={isCompleteScreen} todos={todos} onRemoveTodo={handleRemoveTodo} onComplete={handleComplete} completedTodos={completedTodos} onRemoveFromCompleted={handleRemoveFromCompleted} />
       </div>
     </div>
   );
@@ -106,27 +106,31 @@ function TodoInput({ title, description, setTodos, setTitle, setDescription }) {
         />
       </div>
       <div className="todo-input-item">
-        <button type="button" className="primaryBtn" onClick={handleSubmit}>Add</button>
+       {title.length !== 0 && <button type="button" className="primaryBtn" onClick={handleSubmit}>Add</button>}
       </div>
     </form>
   )
 }
 
-function ToggleButton({ isCompleteScreen, setIsCompleteScreen }) {
+function ToggleButton({ todos, isCompleteScreen, setIsCompleteScreen, completed }) {
   return (
-    <div className="btn-area">
-      <button
-        className={`secondaryBtn ${isCompleteScreen === false && 'active'}`}
-        onClick={() => setIsCompleteScreen(false)}
-      >
-        Todo
-      </button>
-      <button
-        className={`secondaryBtn ${isCompleteScreen === true && 'active'}`}
-        onClick={() => setIsCompleteScreen(true)}
-      >
-        Completed
-      </button>
+    <div style={{display: "flex", alignItems:"center", justifyContent:"space-between", }}>
+      <div className="btn-area">
+        <button
+          className={`secondaryBtn ${isCompleteScreen === false && 'active'}`}
+          onClick={() => setIsCompleteScreen(false)}
+        >
+          Todo
+        </button>
+        <button
+          className={`secondaryBtn ${isCompleteScreen === true && 'active'}`}
+          onClick={() => setIsCompleteScreen(true)}
+        >
+          Completed
+        </button>
+      </div>
+      {
+      isCompleteScreen === false ? <p>You have {todos.length} {todos.length === 0 || todos.length === 1 ? 'task to complete' : 'tasks to complete'}</p> : <p> You have Completed {completed.length} {completed.length === 1 || completed.length === 0 ? 'task' : 'tasks'} </p>}
     </div>
   )
 }
@@ -154,14 +158,14 @@ function TodoList({ isCompleteScreen, todos, onRemoveTodo, onComplete, completed
         completedTodos.map((todo) => {
           return (
             <div className="todo-list-item" key={todo.id}>
-              <div>
+              <div className="whole">
                 <h3>{todo.title}</h3>
                 <p>{todo.description}</p>
                 <small><p>Completed on: {todo.completedOn}</p></small>
               </div>
 
               <div>
-                <button onClick={() => onRemoveFromCompleted(todo.id)}><i class="ri-delete-bin-5-line ri-2x"></i></button>
+                <button className="separate" onClick={() => onRemoveFromCompleted(todo.id)}><i class="ri-delete-bin-5-line ri-2x"></i></button>
               </div>
             </div>
           );

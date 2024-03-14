@@ -4,7 +4,7 @@
   font-style: normal;
 }
 
-App{
+App {
   width: 500px;
 }
 
@@ -14,13 +14,14 @@ body {
   overflow: hidden;
 }
 
-.whole{
-  width: 595px;
+.whole {
+  width: 600px;
 }
 
-.separate{
+.separate {
   margin-right: 10px;
 }
+
 
 h1 {
   text-align: center;
@@ -33,7 +34,6 @@ h1 {
   margin-left: auto;
   margin-right: auto;
   margin-top: 3%;
-  /* height: 70vh; */
   width: 80vh;
   overflow-y: auto;
   box-shadow: 0px 5px 7px rgb(27, 27, 27);
@@ -103,7 +103,11 @@ h1 {
 .todo-list {
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  max-height: 500px;
+  scrollbar-width: none;
 }
+
 
 .btn-area {
   margin-bottom: 15px;
