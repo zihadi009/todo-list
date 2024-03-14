@@ -17,8 +17,8 @@ let todoList = [
 ];
 
 function App() {
-  const [todos, setTodos] = useState(todoList);
-  const [newTodo, setNewTodo] = useState('');
+  const [todos, setTodos] = useState([]);
+  const [title, setTitle] = useState('');
   const [isCompleteScreen, setIsCompleteScreen] = useState(false);
   const [completedTodos, setCompletedTodos] = useState([]);
 
@@ -49,35 +49,41 @@ function App() {
   return (
     <div className="main-container">
       <div className="center-container">
-        <TodoInput todos={todos} setTodos={setTodos} newTodo={newTodo} setNewTodo={setNewTodo} />
+        <TodoInput setTodos={setTodos} title={title} setTitle={setTitle} />
         <TodoList setTodos={setTodos} onFromCompletedTodos={handleFromCompleted} completedTodos={completedTodos} onComplete={handleComplete} todos={todos} onRemove={removeTodo} setIsCompleteScreen={setIsCompleteScreen} isCompleteScreen={isCompleteScreen} />
       </div>
     </div>
   );
 };
 
-function TodoInput({ newTodo, setNewTodo, setTodos }) {
+function TodoInput({ title, setTitle, setTodos }) {
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const todo = newTodo;
+    const todo = title;
     const newTodo1 = {
       id: crypto.randomUUID(),
       todo
     }
     setTodos((todos) => [...todos, newTodo1]);
-    setNewTodo("");
+    setTitle("");
   }
 
   return (
     <form className="input-container" onSubmit={handleSubmit}>
-      <input value={newTodo} onChange={(e) => setNewTodo(e.target.value)}
+      <input value={title} onChange={(e) => setTitle(e.target.value)}
         type="text"
         className="input-box-todo"
-        placeholder="Enter your todo"
+        placeholder="Title"
       />
-      <button className="add-btn">+</button>
+      <input value={title} onChange={(e) => setTitle(e.target.value)}
+        type="text"
+        className="input-box-todo"
+        placeholder="Description"
+      />
+      {/* <button className="add-btn">+</button> */}
+     <button><i className="ri-add-box-line ri-3x"></i></button>
     </form>
   );
 }
