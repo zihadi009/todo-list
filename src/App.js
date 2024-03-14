@@ -2,26 +2,26 @@ import { useState } from "react";
 import "./App.css";
 import 'remixicon/fonts/remixicon.css';
 
-let todoList = [
-  {
-    id: crypto.randomUUID(),
-    title: "Weekly Grocery Shopping",
-    description: "Create a list of essential groceries for the week. Check pantry and fridge, organize the list, and stick to it while shopping."
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Home Improvement Projects",
-    description: "Compile a list of home improvement tasks. Prioritize and schedule repairs, maintenance, and upgrades for your living space."
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Professional Development Goals",
-    description: "Document short-term and long-term professional development goals. Set milestones, research relevant opportunities, and track progress."
-  },
-];
+// let todoList = [
+//   {
+//     id: crypto.randomUUID(),
+//     title: "Weekly Grocery Shopping",
+//     description: "Create a list of essential groceries for the week. Check pantry and fridge, organize the list, and stick to it while shopping."
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     title: "Home Improvement Projects",
+//     description: "Compile a list of home improvement tasks. Prioritize and schedule repairs, maintenance, and upgrades for your living space."
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     title: "Professional Development Goals",
+//     description: "Document short-term and long-term professional development goals. Set milestones, research relevant opportunities, and track progress."
+//   },
+// ];
 
 function App() {
-  const [todos, setTodos] = useState(todoList);
+  const [todos, setTodos] = useState([]);
   console.log(todos)
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -68,7 +68,7 @@ function App() {
       <div className="todo-wrapper">
         <TodoInput setTodos={setTodos} title={title} setTitle={setTitle} description={description} setDescription={setDescription} />
         <ToggleButton todos={todos} completed={completedTodos} isCompleteScreen={isCompleteScreen} setIsCompleteScreen={setIsCompleteScreen} />
-        <TodoList completedTodos={completedTodos} isCompleteScreen={isCompleteScreen} todos={todos} onRemoveTodo={handleRemoveTodo} onComplete={handleComplete} completedTodos={completedTodos} onRemoveFromCompleted={handleRemoveFromCompleted} />
+        <TodoList completedTodos={completedTodos} isCompleteScreen={isCompleteScreen} todos={todos} onComplete={handleComplete} onRemoveTodo={handleRemoveTodo} onRemoveFromCompleted={handleRemoveFromCompleted} />
       </div>
     </div>
   );
@@ -80,7 +80,6 @@ function Title() {
 
 function TodoInput({ title, description, setTodos, setTitle, setDescription }) {
   function handleSubmit(e) {
-    // console.log(title, description)
     e.preventDefault();
     const newTodo1 = {
       id: crypto.randomUUID(),
@@ -147,8 +146,8 @@ function TodoList({ isCompleteScreen, todos, onRemoveTodo, onComplete, completed
                 <p>{todo.description}</p>
               </div>
               <div>
-                <button className="separate" onClick={() => onRemoveTodo(todo.id)}><i class="ri-delete-bin-5-line ri-2x"></i></button>
-                <button onClick={() => onComplete(todo.id)}><i class="ri-check-double-line ri-2x"></i></button>
+                <button className="separate" title="Delete this todo" onClick={() => onRemoveTodo(todo.id)}><i class="ri-delete-bin-5-line ri-2x"></i></button>
+                <button title="Mark as complete" onClick={() => onComplete(todo.id)}><i class="ri-check-double-line ri-2x"></i></button>
               </div>
             </div>
           );
