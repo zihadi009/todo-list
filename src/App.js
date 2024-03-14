@@ -129,7 +129,7 @@ function ToggleButton({ todos, isCompleteScreen, setIsCompleteScreen, completed 
         </button>
       </div>
       {
-      isCompleteScreen === false ? <p>You have {todos.length} {todos.length === 0 || todos.length === 1 ? 'task to complete' : 'tasks to complete'}</p> : <p> You have Completed {completed.length} {completed.length === 1 || completed.length === 0 ? 'task' : 'tasks'} </p>}
+      isCompleteScreen === false ? <p>You have {todos.length} {todos.length === 0 || todos.length === 1 ? 'task to complete' : 'tasks to complete'}</p> : <p> You have completed {completed.length} {completed.length === 1 || completed.length === 0 ? 'task' : 'tasks'} </p>}
     </div>
   )
 }
