@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import 'remixicon/fonts/remixicon.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [todos, setTodos] = useState(() => {
@@ -8,8 +10,33 @@ function App() {
     return localTodos ? JSON.parse(localTodos) : []
   });
 
+  const showCustomToast = (id) => {
+    const handleDelete = (id) => {
+      const newTodos = todos;
+      const filteredTodos = newTodos.filter((todo) => todo.id !== id);
+      setTodos(filteredTodos);
+      toast.dismiss(id); // Close the toast after the action
+      window.location.reload();
+    };
+
+    const handleClose = (id) => {
+      toast.dismiss(id); // Just close the toast]
+      window.location.reload();
+    };
+
+    toast(
+      <div>
+        <p>Are you sure you want to delete this item?</p>
+        <button onClick={() => handleDelete(id)} style={{ marginRight: "8px" }}>
+          Delete
+        </button>
+        <button onClick={() => handleClose(id)}>Close</button>
+      </div>
+    );
+  };
+
   useEffect(() => {
-    if(todos) {
+    if (todos) {
       localStorage.setItem("todos", JSON.stringify(todos))
     }
   }, [todos]);
@@ -23,10 +50,11 @@ function App() {
   });
 
   useEffect(() => {
-    if(completedTodos) {
-      localStorage.setItem("completedTodos",  JSON.stringify(completedTodos))
+    if (completedTodos) {
+      localStorage.setItem("completedTodos", JSON.stringify(completedTodos))
     }
   }, [completedTodos])
+
 
   const handleComplete = (id) => {
     const inCompleteTodos = todos;
@@ -47,6 +75,7 @@ function App() {
       description: filteredItem[0].description,
       completedOn
     }
+    window.location.reload();
     setCompletedTodos(() => [...completedTodos, completed]);
     handleRemoveTodo(id);
   };
@@ -68,7 +97,7 @@ function App() {
       <div className="todo-wrapper">
         <TodoInput setTodos={setTodos} todos={todos} title={title} setTitle={setTitle} description={description} setDescription={setDescription} />
         <ToggleButton todos={todos} completed={completedTodos} isCompleteScreen={isCompleteScreen} setIsCompleteScreen={setIsCompleteScreen} />
-        <TodoList completedTodos={completedTodos} isCompleteScreen={isCompleteScreen} todos={todos} onComplete={handleComplete} onRemoveTodo={handleRemoveTodo} onRemoveFromCompleted={handleRemoveFromCompleted} />
+        <TodoList notify={showCustomToast} completedTodos={completedTodos} isCompleteScreen={isCompleteScreen} todos={todos} onComplete={handleComplete} onRemoveTodo={handleRemoveTodo} onRemoveFromCompleted={handleRemoveFromCompleted} />
       </div>
     </div>
   );
@@ -135,7 +164,7 @@ function ToggleButton({ todos, isCompleteScreen, setIsCompleteScreen, completed 
   )
 }
 
-function TodoList({ isCompleteScreen, todos, onRemoveTodo, onComplete, completedTodos, onRemoveFromCompleted }) {
+function TodoList({ notify, isCompleteScreen, todos, onRemoveTodo, onComplete, completedTodos, onRemoveFromCompleted }) {
   return (
     <div className="todo-list">
       {isCompleteScreen === false &&
@@ -147,8 +176,21 @@ function TodoList({ isCompleteScreen, todos, onRemoveTodo, onComplete, completed
                 <p>{todo.description}</p>
               </div>
               <div>
-                <button className="separate" title="Delete this todo" onClick={() => onRemoveTodo(todo.id)}><i className="ri-delete-bin-5-line ri-2x"></i></button>
+                <button className="separate" title="Delete this todo" onClick={() => notify(todo.id)}><i className="ri-delete-bin-5-line ri-2x"></i></button>
                 <button title="Mark as complete" onClick={() => onComplete(todo.id)}><i className="ri-check-double-line ri-2x"></i></button>
+                <ToastContainer
+                  autoClose={3000}
+                  pauseOnHover
+                  draggable
+                  toastStyle={{
+                    color: 'black',
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 9999,
+                  }}
+                ></ToastContainer>
               </div>
             </div>
           );
@@ -163,7 +205,6 @@ function TodoList({ isCompleteScreen, todos, onRemoveTodo, onComplete, completed
                 <p>{todo.description}</p>
                 <small><p>Completed on: {todo.completedOn}</p></small>
               </div>
-
               <div>
                 <button className="separate" onClick={() => onRemoveFromCompleted(todo.id)}><i className="ri-delete-bin-5-line ri-2x"></i></button>
               </div>
