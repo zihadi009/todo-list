@@ -15,12 +15,12 @@ function App() {
       const newTodos = todos;
       const filteredTodos = newTodos.filter((todo) => todo.id !== id);
       setTodos(filteredTodos);
-      toast.dismiss(id); // Close the toast after the action
+      toast.dismiss(id);
       window.location.reload();
     };
 
     const handleClose = (id) => {
-      toast.dismiss(id); // Just close the toast]
+      toast.dismiss(id);
       window.location.reload();
     };
 
@@ -54,7 +54,6 @@ function App() {
       localStorage.setItem("completedTodos", JSON.stringify(completedTodos))
     }
   }, [completedTodos])
-
 
   const handleComplete = (id) => {
     const inCompleteTodos = todos;
